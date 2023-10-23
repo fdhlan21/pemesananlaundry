@@ -17,7 +17,7 @@ export default function PilihSendiri5({navigation}) {
                 </View>
 
                 <View style={{alignItems:'center',}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity  onPress={() => navigation.navigate("QrisPilihSendiri1")}>
                     <Image source={QrisLaundry} style={{width: 246, height: 303, }} />
                     </TouchableOpacity>
                 </View>

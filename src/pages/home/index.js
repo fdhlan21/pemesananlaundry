@@ -1,11 +1,37 @@
 import { View, Text, Image, Animated, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useEffect, useRef } from 'react'
-import { ButtonAmbilTanpaRibet, ButtonPilihSendiri, IconInfoLaundry, LogoLaundry, MeProfile, Notify, NotifyInfoLaundry } from '../../assets'
+import React, { useEffect, useRef, useState } from 'react'
+import { ButtonAmbilTanpaRibet, ButtonPilihSendiri, DefaultPorfile, IconInfoLaundry, LogoLaundry, MeProfile, Notify, NotifyInfoLaundry } from '../../assets'
 import colors from '../../utils/colors'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getData } from '../../localstorage';
 
 export default function HomeScreen({navigation}) {
+const [profileImage, setProfileImage] = useState(null);
+const scale = useRef(new Animated.Value(0)).current;
+const [data, setData] = useState({});
 
-     const scale = useRef(new Animated.Value(0)).current;
+useEffect(() => {
+  // Mengambil data dari local storage dan mengatur ke dalam state data
+  getData('androiduser').then(response => {
+    setData(response);
+    console.log('Data user:', response);
+    const username = response.username; 
+    loadProfileImageFromLocal(username); // Memanggil fungsi ini untuk mengambil gambar profil dari local storage
+  });
+}, []);
+  
+
+const loadProfileImageFromLocal = async (username) => {
+  try {
+    const profileImageData = await AsyncStorage.getItem(`profileImage_${username}`);
+    if (profileImageData) {
+      setProfileImage(profileImageData);
+    }
+  } catch (error) {
+    console.error('Error loading image from local storage:', error);
+  }
+};
+
 
   useEffect(() => {
     // Menambahkan delay sebelum animasi dimulai (misalnya, 2 detik atau 2000ms)
@@ -35,12 +61,17 @@ export default function HomeScreen({navigation}) {
     <View style={{padding:10, flexDirection:'row', justifyContent:'space-between'}}>
         <View>
             <Text style={{fontFamily:'Poppins-SemiBold', fontSize:13, }}>Selamat Pagi,</Text>
-            <Text style={{fontFamily:'Poppins-SemiBold', fontSize:16, }}>Alver</Text>
+            <Text style={{fontFamily:'Poppins-SemiBold', fontSize:13, }}>{data.username}</Text>
         </View>
         <View>
         <TouchableOpacity onPress={() => navigation.navigate("Profile1")}>
-            <Image style={{height:40, width:40}} source={MeProfile}/>
-
+    <View>
+                {profileImage ? (
+                  <Image style={{ width: 50, height: 50, borderRadius: 20 }} source={{ uri: profileImage }} />
+                ) : (
+                  <Image style={{ width: 50, height: 50, borderRadius: 20 }} source={DefaultPorfile} />
+                )}
+            </View>
         </TouchableOpacity>
         </View>
     </View>

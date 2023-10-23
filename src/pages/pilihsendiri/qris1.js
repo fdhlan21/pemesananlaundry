@@ -1,9 +1,14 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IconRumah, IconTukangLaundryNaikMotor, LogoWhatsApp, QrisLaundry, WhatsAppLogo } from '../../assets'
 import colors from '../../utils/colors'
 
 export default function QrisPilihSendiri1({navigation}) {
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.navigate("QrisPilihSendiri2")
+        },2300)
+    },[])
   return (
     <View style={{flex:1,backgroundColor:'white'}}>
 
@@ -19,7 +24,7 @@ export default function QrisPilihSendiri1({navigation}) {
                 </View>
 
                 <View style={{alignItems:'center', marginTop: 10                                                                                                                                                                                                                                                                                }}>
-                    <Text style={{fontFamily:'Poppins-SemiBold', fontSize: 20, textAlign:'center',}}>Pakaian Kami Siap Kami{'\n'}Ambil</Text>
+                    <Text style={{fontFamily:'Poppins-SemiBold', fontSize: 20, textAlign:'center',}}>Pakaian kamu Siap Kami{'\n'}Ambil</Text>
                 </View>
 
                 <View style={{alignItems:'center', }}>

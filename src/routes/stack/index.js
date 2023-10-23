@@ -24,13 +24,15 @@ import CancelPilihSendiri2 from '../../pages/pilihsendiri/cancel2';
 import QrisPilihSendiri1 from '../../pages/pilihsendiri/qris1';
 import QrisPilihSendiri2 from '../../pages/pilihsendiri/qris2';
 import Profile1 from '../../pages/profile/profile1';
+import EditProfile from '../../pages/profile/editprofile';
+import LupaKataSandi from '../../pages/lupasandi';
 
 
 const Stack = createNativeStackNavigator();
 
 function MyStack() {
   return (
-      <Stack.Navigator initialRouteName='HomeScreen'>
+      <Stack.Navigator initialRouteName='SplashScreen'>
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown:false}}/>
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown:false}}/>
         <Stack.Screen name="SignupScreen" component={SignupScreen} options={{headerShown:false}}/>
@@ -51,6 +53,10 @@ function MyStack() {
         <Stack.Screen name="QrisPilihSendiri1" component={QrisPilihSendiri1} options={{headerShown:false}}/>
         <Stack.Screen name="QrisPilihSendiri2" component={QrisPilihSendiri2} options={{headerShown:false}}/>
         <Stack.Screen name="Profile1" component={Profile1} options={{headerShown:false}}/>
+        <Stack.Screen name="LupaKataSandi" component={LupaKataSandi} options={{headerShown:false}}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown:false}}/>
+
+
 
 
       </Stack.Navigator>

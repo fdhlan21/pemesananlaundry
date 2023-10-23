@@ -3,6 +3,9 @@ import React from 'react'
 import colors from '../../utils/colors'
 
 export default function CancelPilihSendiri1({navigation}) {
+  const handleBack = () => {
+    navigation.goBack()
+  }
   return (
     <View style={{flex:1, backgroundColor:'white',}}>
      <View stle={{padding:10}}>
@@ -19,7 +22,7 @@ export default function CancelPilihSendiri1({navigation}) {
         <Text style={{color:'white', fontFamily:'Poppins-SemiBold', fontSize: 15, textAlign:'center'}}>Cancel</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{padding:10, backgroundColor:colors.primary, width:100, borderRadius:5}}>
+        <TouchableOpacity onPress={handleBack}  style={{padding:10, backgroundColor:colors.primary, width:100, borderRadius:5}}>
         <Text style={{color:'white', fontFamily:'Poppins-SemiBold', fontSize: 15, textAlign:'center'}}>Batal</Text>
         </TouchableOpacity>
     </View>

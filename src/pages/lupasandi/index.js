@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { HidePass, LogoLaundry, ShowPass } from '../../assets'
-import colors from '../../utils/colors'
+import colors from '../../utils/colors';
 import { showMessage } from 'react-native-flash-message';
 import axios from 'axios';
 import { LoginURL, storeData } from '../../localstorage';
 
-export default function LoginPageScreen({navigation}) {
+export default function LupaKataSandi({navigation}) {
 
       const [passwordVisible, setPasswordVisible] = useState(false);
     const [passwordInput, setPasswordInput] = useState('');
@@ -69,8 +69,8 @@ export default function LoginPageScreen({navigation}) {
         }}>
             <View style={{padding:10,}}>
                 {/* JUDUL */}
-                <Text style={{fontFamily:'Poppins-Bold', fontSize:30, }}>Sign In</Text>
-                <Text style={{fontFamily:'Poppins-Regular', fontSize:15, color:'gray'}}>Silakan isi data yang sudah terdaftar</Text>
+                <Text style={{fontFamily:'Poppins-Bold', fontSize:30, }}>Lupa Password</Text>
+                <Text style={{fontFamily:'Poppins-Regular', fontSize:15, color:'gray'}}>Silakan masukan Nomor Telepon terlebih dahulu</Text>
             </View>
 
             <View style={{padding:10, marginTop:30}}>
@@ -81,33 +81,18 @@ export default function LoginPageScreen({navigation}) {
                     value={from.nomortelepon} onChangeText={value => setFrom({...from,nomortelepon: value})}
                 />
 
-              <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth:1, height:40, borderRadius:5,marginTop:20}}>
-                 <TextInput style={{flex: 1,  color:'black', fontFamily:'Poppins-Regular', fontSize:12, paddingLeft:10, paddingRight:10}} placeholder='Password...' 
-                placeholderTextColor='gray' secureTextEntry={!passwordVisible}   value={from.password} 
-                onChangeText={value => setFrom({...from,password: value})}/>
-
-                <TouchableOpacity style={{left:-10}}  onPress={togglePasswordVisibility}>
-                    <Image style={{height:21, width:21}} source={eyeIconSource}/>
-                </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity style={{padding:10}}>
-                    <Text style={{textAlign:'right', fontFamily:'Poppins-Regular', fontSize:12,}}>Lupa Password ?</Text>
-                </TouchableOpacity>
-
                 <TouchableOpacity  onPress={handleLogin} style={{padding:10, backgroundColor:colors.primary, borderRadius:10, marginTop:50}}>
-                    <Text style={{textAlign:'center', fontFamily:'Poppins-SemiBold', fontSize:15, color:'white'}}>Sign In</Text>
+                    <Text style={{textAlign:'center', fontFamily:'Poppins-SemiBold', fontSize:15, color:'white'}}>kirim Kode OTP</Text>
                 </TouchableOpacity> 
 
                 <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")} style={{padding:10}}>
-                    <Text style={{textAlign:'center', fontFamily:'Poppins-SemiBold', fontSize:12,}}>Belum punya akun? Sign Up</Text>
+                    <Text style={{textAlign:'center', fontFamily:'Poppins-Regular', fontSize:12, color:'gray'}}>Silakan periksa apakah kode OTP anda sudah Masuk</Text>
                 </TouchableOpacity>
             </View>
+        </View>
     <View style={{alignItems:'center', marginTop:'10%'}}>
         <Image style={{height:190, width:200}} source={LogoLaundry}/>
     </View>
-        </View>
-
     </ScrollView>
     </View>
   )

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, PanResponder, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import colors from '../../utils/colors'
 import { HidePass, LogoLaundry, ShowPass } from '../../assets'
 import { showMessage } from 'react-native-flash-message';
@@ -9,7 +9,6 @@ import { MYAPP, RegisterURL, storeData } from '../../localstorage';
 export default function SignupScreen({navigation}) {
 
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [passwordInput, setPasswordInput] = useState('');
     const [eyeIconSource, setEyeIconSource] = useState(HidePass);
     
     const togglePasswordVisibility = () => {
@@ -24,9 +23,7 @@ export default function SignupScreen({navigation}) {
     password:'',
   })
 
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = () => {
+  const handleRegister = () => {
     // MEMBUAT LOGIKA JIKA USER TIDAK MEGISI SEMUA FEILD
     if ((from.username.length == 0) | (from.nomortelepon.length == 0) | (from.password.length == 0)) {
         showMessage({
@@ -42,35 +39,28 @@ export default function SignupScreen({navigation}) {
     } else if (from.nomortelepon.length < 10) {
         Alert.alert("Nomor Telepon TidaK Boleh Kurang Dari 10 Nomor!");
         // LOGIKA JIKA USERNAME KURAN DARI 5 KATA
-    } else if (from.username.length < 5) { 
+    } else if (from.username.length < 2) { 
         Alert.alert("Username Tidak Boleh Kurang Dari 5 Huruf!");
 
         // JIKA TIDAK ADA YANG SALAH DI FEILD MAKA LOGIKA INI AKAN
     } else {
-        console.log(from);
-
+        console.log("Log Sebelum ke AXIOS : ", from);
         axios
         .post(RegisterURL, from)
         .then(response => {
+          if (response.data==201) {
+
             console.log(response.data);
-            
-            if (response.data==200) {
-                   //REGISTRASI JIKA BERHASIL
-                   console.log(response.data);
-                   storeData('user', response.data);
-                   navigation.replace("LoginScreen");
-                   Alert.alert(MYAPP, "Selamat, Register Berhasil!");
-            } else {
-                showMessage({
-                    type:'default',
-                    color:'white',
-                    backgroundColor:colors.errormessage,
-                    message:"Maaf Sepertinya, Username dan Nomor Telepon Sudah Terdaftar!",
-                })
-                
-                
-        
-            }
+            storeData('androiduser', from);
+            navigation.navigate("HomeScreen");
+            Alert.alert(MYAPP, "Selamat Pendaftaran Berhasil!");
+
+        } else {
+            showMessage({
+                type:'danger',
+                message:'Username / Nomor Telepon Sudah Terdaftar',
+            })
+          }
         })
         .catch(error => {
             console.error(error);
@@ -115,7 +105,7 @@ export default function SignupScreen({navigation}) {
                     <Text style={{textAlign:'right', fontFamily:'Poppins-Regular', fontSize:12,}}>Lupa Password ?</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleLogin}  style={{padding:10, backgroundColor:colors.primary, borderRadius:10, marginTop:50}}>
+                <TouchableOpacity onPress={handleRegister}  style={{padding:10, backgroundColor:colors.primary, borderRadius:10, marginTop:50}}>
                     <Text style={{textAlign:'center', fontFamily:'Poppins-SemiBold', fontSize:15, color:'white'}}>Sign Up</Text>
                 </TouchableOpacity> 
 

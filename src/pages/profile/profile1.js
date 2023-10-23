@@ -1,123 +1,202 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import colors from '../../utils/colors'
-import { DefaultPorfile, IconKelaur, LeftArrow, LogoCeklis, MeProfile } from '../../assets'
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-export default function Profile1({navigation}) {
+import { View, Text, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import colors from '../../utils/colors';
+import { DefaultPorfile, IconKeluar, IconLogout, KoasKaki, LeftArrow, LogoCeklis, MeProfile, RightArrow, SarungBantal,editIcon } from '../../assets';
+import { MYAPP, UploadProfile, getData, storeData } from '../../localstorage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ScrollIndicator from 'react-native-scroll-indicator';
+import { IconEdit } from '../../assets/img/index2';
 
 
+
+export default function Profile1({ navigation }) {
+  const [data, setData] = useState({});
+  const [userData, setUserData] = useState({}); // Menambahkan inisialisasi state
   const [profileImage, setProfileImage] = useState(null);
- 
-  const handleUploadPhoto = () => {
-    let options = {
-      mediaType: 'photo', // Gunakan 'photo' untuk gambar
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-    };
-  
-    launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
-  
-      if (response.didCancel) {
-        alert('Tidak Memilih Gambar!');
-        return;
-      } else if (response.errorCode == 'camera_unavailable') {
-        alert('Kamera tidak tersedia di perangkat ini');
-        return;
-      } else if (response.errorCode == 'permission') {
-        alert('Izin tidak diberikan');
-        return;
-      } else if (response.errorCode == 'others') {
-        alert(response.errorMessage);
-        return;
+
+  // Function to load the profile image from local storage
+  const loadProfileImageFromLocal = async (username) => {
+    try {
+      const profileImageData = await AsyncStorage.getItem(`profileImage_${username}`);
+      if (profileImageData) {
+        setProfileImage(profileImageData);
       }
-  
-      // Perbarui cara Anda mengekstrak nilai 'uri'
-      const imageUri = response.assets[0]?.uri;
-  
-      if (imageUri) {
-        console.log('uri -> ', imageUri);
-        setProfileImage(imageUri);
-      }
-    });
+    } catch (error) {
+      console.error('Error loading image from local storage:', error);
+    }
   };
-  
-  
-  
-  
+
+  useEffect(() => {
+    getData('androiduser').then((response) => {
+      setData(response);
+      console.log('Data User: ', response);
+      // Mengeksekusi fungsi loadProfileImageFromLocal dan mencetak hasilnya
+      const username = response.username;
+      loadProfileImageFromLocal(username); // Memanggil fungsi ini untuk mengambil gambar profil dari local storage
+    });
+
+  }, []);
 
   const handleBack = () => {
-    navigation.goBack()
-  }
+    navigation.navigate("HomeScreen");
+  };
+
+
+  const handleLogout = () => {
+    // Menampilkan konfirmasi popup
+    Alert.alert(
+      'Konfirmasi',
+      'Apakah Anda yakin ingin keluar?',
+      [
+        {
+          text: 'Tidak',
+          style: 'cancel',
+        },
+        {
+          text: 'Ya',
+          onPress: () => {
+            // Menghapus parameter username sementara
+            storeData('androiduser', null);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoginScreen' }],
+            });
+            Alert.alert(MYAPP, 'Berhasil Logout');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+
+const handleEditProfile = () => {
+//NAVUGASI KE EDITPROFILE
+
+navigation.navigate("EditProfile");
+}
+
   return (
-    <View style={{flex:1, backgroundColor:colors.primary,}}>
-         <View
+    <View style={{ flex: 1, backgroundColor: colors.primary }}>
+      <View
         style={{
           padding: 10,
           backgroundColor: colors.primary,
           borderBottomEndRadius: 5,
           borderBottomStartRadius: 5,
           flexDirection: 'row',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <TouchableOpacity onPress={handleBack} style={{ left: -110 }}>
-          <Image style={{ height: 24, width: 24, tintColor: 'white' }} source={LeftArrow} />
-        </TouchableOpacity>
-        <View style={{ alignItems: 'center', left : 0 }}>
-          <Text style={{ color: 'white', fontFamily: 'Poppins-SemiBold', fontSize: 15, textAlign: 'center' }}>
-      Profile
-          </Text>
+        <View style={{padding:10, }}>
+          <TouchableOpacity onPress={handleBack}>
+            <Image style={{tintColor:'white', height: 24, width: 24,}} source={LeftArrow}/>
+          </TouchableOpacity>
         </View>
-        <View style={{left: 100}}>
-            <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-                <Image style={{tintColor:'#ffff', width: 26 , height: 21, }} source={IconKelaur}/>
-            </TouchableOpacity>
+        <View style={{padding:10, }}>
+          <Text style={{fontFamily:'Poppins-SemiBold', fontSize:15, color:'white', }}>Profile</Text>
         </View>
+        <View style={{padding:10, }}>
+          <TouchableOpacity onPress={handleLogout}>
+            <Image style={{width:24, height:24, tintColor:'white'}} source={IconLogout}/>
+          </TouchableOpacity>
+        </View>
+
       </View>
-      <ScrollView style={{flex:1,  }}>
 
-        <View style={{backgroundColor:'white', padding:10, borderTopLeftRadius:20, borderTopRightRadius:20,  marginTop:'10%'}}>
 
-        {/* PROFILE */}
-
-        <View style={{padding:10, alignItems:'center', top: -50}}>
+        <View style={{ backgroundColor: 'white', padding: 10, borderTopLeftRadius: 20, borderTopRightRadius: 20, marginTop: '20%', 
+        height:'100%'}}>
+          {/* PROFILE */}
+          <View style={{ padding: 10, alignItems: 'center', top: -50 }}>
             <View>
-            <TouchableOpacity onPress={() => handleUploadPhoto('photo')}>
-        {profileImage ? (
-          <Image style={{ width: 150, height: 150, borderRadius: 20 }} source={{ uri: profileImage }} />
-
-        ) : (
-          <Image  style={{ width: 150, height: 150, borderRadius: 20 }} source={DefaultPorfile} />
-        )}
-      </TouchableOpacity>
+                {profileImage ? (
+                  <Image style={{ width: 150, height: 150, borderRadius: 20 }} source={{ uri: profileImage }} />
+                ) : (
+                  <Image style={{ width: 150, height: 150, borderRadius: 20 }} source={DefaultPorfile} />
+                )}
             </View>
-            
-        {/* NAME PROFILE */}
-            <View style={{top:5}}>
-          <Text style={{fontFamily:'Poppins-SemiBold', fontSize:12, }}>Joel</Text>
+
+            {/* NAME PROFILE */}
+            <View style={{ top: 5 }}>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 15 }}>{userData.username ? userData.username: data.username}</Text>
+            </View>
+
+            {/* NOMOR HP */}
+            <View style={{ top: 5 }}>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 15 }}>{userData.nomortelepon ? userData.nomortelepon: data.nomortelepon}</Text>
+            </View>
+
+            {/* ALAMAT RUMAH */}
+            <View style={{ top: 5 }}>
+              <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 15 }}>{userData.alamat ? userData.alamat: data.alamat}</Text>
+            </View>
+
+
+            <View style={{marginTop:10}}>
+            <TouchableOpacity onPress={handleEditProfile} style={{padding:10, backgroundColor:colors.primary, borderRadius:10, flexDirection:'row',
+            justifyContent:'space-evenly',  width: '50%'}}>
+                  <Image style={{width:24, height:24, tintColor:'white', }} source={editIcon}/>
+                  <Text style={{color:'white', fontFamily:'Poppins-SemiBold', fontSize:15, }}>Edit Profile</Text>
+            </TouchableOpacity>
+
           </View>
-        
-        {/* NOMOR HP */}
-
-        <View style={{top:5}}>
-          <Text style={{fontFamily:'Poppins-SemiBold', fontSize:12, }}>0812 3456 7890</Text>
-        </View>
-
-        {/* ALAMAT RUMAH */}
-        <View style={{top:5}}>
-          <Text style={{fontFamily:'Poppins-SemiBold', fontSize:12, }}>Tawakal 11 No.10a</Text>
-        </View>
-        </View>
-
-
+          </View>
        
+          <View style={{padding:10}}>
+          <Text style={{fontFamily:'Poppins-SemiBold', fontSize:15, marginTop: 10}}>History</Text>
+            <ScrollView horizontal={true} contentContainerStyle={{width:500,}} style={{marginTop:20, }}>
+                  {/* DAFTAR HISTORY PEMESANAN */}
+                  <View style={{padding:10, backgroundColor:colors.primary, width:189, height:100, borderRadius:20}}>
+                  {/* TANGGAL PEMESANAN */}
+                  <Text style={{fontFamily:'Poppins-Regular', fontSize:12, color:'white', textAlign:'right', }}>03/08/2023</Text>
 
-        </View>
+                  {/* JENIS PEMESANAN */}
+                  <View style={{flexDirection:'row', }}>
+                  
+                  <View style={{}}>
+                    <Image style={{height:60, width: 68, }} source={KoasKaki}/>
+                  </View>
+
+                  <View style={{padding:10, }}>
+                      <Text style={{fontFamily:'Poppins-SemiBold', fontSize:15, color:'white'}}>Pesanan 1</Text>
+                      <Text style={{fontFamily:'Poppins-Regular', fontSize:12, color:'white'}}>Rp 30.000</Text>
+                  </View>
+                  </View>
+                  </View> 
+
+                  <View style={{padding:10, backgroundColor:colors.primary, width:240, height:100, borderRadius:20, marginLeft:10}}>
+                          {/* TANGGAL PEMESANAN */}
+                  <Text style={{fontFamily:'Poppins-Regular', fontSize:12, color:'white', textAlign:'right', }}>03/08/2023</Text>
+
+                  {/* JENIS PEMESANAN */}
+                  <View style={{flexDirection:'row', }}>
+                  
+                  <View style={{}}>
+                    <Image style={{height:62, width: 68, }} source={SarungBantal}/>
+                  </View>
+
+                  <View style={{padding:10, }}>
+                      <Text style={{fontFamily:'Poppins-SemiBold', fontSize:15, color:'white'}}>Veggie Tomato Mix</Text>
+                      <Text style={{fontFamily:'Poppins-Regular', fontSize:12, color:'white'}}>4,5     Rp 30.000</Text>
+                  </View>
+                  </View>
+                  </View> 
+
+            </ScrollView>
+
+                  {/* See More */}
+            <View style={{alignItems:'flex-end', top:10}}>
+                <View style={{flexDirection:'row', alignItems:'center', }}>
+                    <Text style={{fontFamily:'Poppins-Regular', color:colors.primary, fontSize:12, }}>See More</Text>
+                    <Image style={{width:24, height:24, tintColor:colors.primary}} source={RightArrow} />
+                </View>    
+            </View>        
+          </View>
+
         
-      </ScrollView>
-
+        </View>
+      
     </View>
-  )
+  );
 }

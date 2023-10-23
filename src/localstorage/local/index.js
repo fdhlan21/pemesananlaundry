@@ -21,6 +21,8 @@ export const getData = async (key) => {
   }
 }
 
-export const RegisterURL = 'http://192.168.6.137/reinelaundry/Api/register';
-export const LoginURL = 'http://192.168.6.137/reinelaundry/Api/login';
+export const RegisterURL = 'https://laundry.okeadmin.com/Api/register';
+export const LoginURL = 'https://laundry.okeadmin.com/Api/login';
+export const UploadProfile = "https://laundry.okeadmin.com/Api/uploadprofile";
+export const editProfile = "https://laundry.okeadmin.com/Api/editprofile";
 export  const MYAPP = 'REINE LAUNDRY'; 
