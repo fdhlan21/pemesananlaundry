@@ -40,6 +40,12 @@ import DefaultPorfile from './default_profile.jpg';
 import IconLogout from './logout.png';
 import editIcon from './editicon.png';
 import RightArrow from './right-arrow.png'
+import back from './back.png'
+import OVOIcon from './ovo.png';
+import GopayIcon from './gopay.png';
+import Shoopepayicon from './shoopepay.png';
+import BankPayIcon from './bank.png';
+import CODIcon from './cod.png';
 
 
 
@@ -49,4 +55,4 @@ export { LogoLaundry, HidePass, ShowPass, MeProfile, Notify, ButtonPilihSendiri,
 ProfileLaundry, MapPointLogo, OpenLogo, HandPhoneLogo, WhatsAppLogo, LeftArrow, Calenda1, NotifikasiAmbilTanpaRibet2, OrangNyuci, NotifikasiAmbilTanpaRibet3
 , RincianPesananKaos, RincianPesananCelanaPendek, RincianPesananCelanaPanjang, RincianPesananJaket, RincianPesananBantal,
 MethodIcon, PaymentIcon, LogoBCA, LogoWhatsApp, IconRumah, TambahKurang, SarungBantal, KoasKaki, CelanaDalam, ThreeCircle, QrisLaundry, LogoCeklis,
-IconTukangLaundryNaikMotor,IconIlustrasiQRSIS, DefaultPorfile, IconLogout, editIcon, RightArrow}
+IconTukangLaundryNaikMotor,IconIlustrasiQRSIS, DefaultPorfile, IconLogout, editIcon, RightArrow, back, OVOIcon, GopayIcon,Shoopepayicon,BankPayIcon,CODIcon}

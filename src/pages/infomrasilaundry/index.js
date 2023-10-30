@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { HandPhoneLogo, LeftArrow, LogoLaundry, MapPointLogo, OpenLogo, ProfileLaundry, WhatsAppLogo } from '../../assets'
+import { HandPhoneLogo, LeftArrow, LogoLaundry, MapPointLogo, OpenLogo, ProfileLaundry, WhatsAppLogo, back } from '../../assets'
 import colors from '../../utils/colors'
 
 export default function InformasiLaundry({navigation}) {
@@ -9,15 +9,35 @@ export default function InformasiLaundry({navigation}) {
     }
   return (
     <View style={{flex:1 ,backgroundColor:'white',}}>
-      <View style={{padding:10, backgroundColor:colors.primary, borderBottomEndRadius:5, borderBottomStartRadius:5, flexDirection:'row', justifyContent:'center' }}>
-        <TouchableOpacity onPress={handleBack} style={{left: -70}}>
-            <Image style={{height:24, width:24, tintColor:'white'}} source={LeftArrow}/>
+      <View
+        style={{
+          padding: 20,
+          // backgroundColor: colors.primary,
+          // borderBottomEndRadius: 5,
+          // borderBottomStartRadius: 5,
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        <TouchableOpacity onPress={handleBack} style={{left: -48}}>
+          <Image
+            style={{height: 45, width: 45, }}
+            source={back}
+          />
         </TouchableOpacity>
-        <View stle={{alignItems:'center'}}>
-            <Text style={{color:'white', fontFamily:'Poppins-SemiBold', fontSize:15, textAlign:'center', }}>Informasi Laundry</Text>
+        <View style={{alignItems: 'center'}}>
+          <Text
+            style={{
+              color: colors.black,
+              fontFamily: 'Poppins-SemiBold',
+              fontSize: 20,
+              textAlign: 'center',
+              top:10,
+              right:10
+            }}>
+         Informasi Laundry
+          </Text>
         </View>
       </View>
-
 
       <ScrollView style={{
         flex:1,

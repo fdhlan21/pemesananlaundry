@@ -20,18 +20,15 @@ export default function AmbilTanpaRibet2({ navigation }) {
       <View
         style={{
           padding: 10,
-          backgroundColor: colors.primary,
           borderBottomEndRadius: 5,
           borderBottomStartRadius: 5,
           flexDirection: 'row',
           justifyContent: 'center',
         }}
       >
-        <TouchableOpacity onPress={handleBack} style={{ left: -70 }}>
-          <Image style={{ height: 24, width: 24, tintColor: 'white' }} source={LeftArrow} />
-        </TouchableOpacity>
+
         <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'white', fontFamily: 'Poppins-SemiBold', fontSize: 15, textAlign: 'center' }}>
+          <Text style={{ color: 'black', fontFamily: 'Poppins-SemiBold', fontSize: 20, textAlign: 'center' }}>
             Ambil Tanpa Ribet
           </Text>
         </View>

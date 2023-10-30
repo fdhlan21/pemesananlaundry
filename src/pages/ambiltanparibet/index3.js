@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { LeftArrow, MethodIcon, NotifikasiAmbilTanpaRibet2, NotifikasiAmbilTanpaRibet3, OrangNyuci, PaymentIcon, RincianPesananBantal, RincianPesananCelanaPanjang, RincianPesananCelanaPendek, RincianPesananJaket, RincianPesananKaos } from '../../assets';
+
 import colors from '../../utils/colors';
 import { useNavigationBuilder } from '@react-navigation/native';
+import { BankPayIcon, CODIcon, GopayIcon, LeftArrow, MethodIcon, NotifikasiAmbilTanpaRibet3, OVOIcon, RincianPesananBantal, RincianPesananCelanaPanjang, 
+RincianPesananCelanaPendek, RincianPesananJaket, RincianPesananKaos, Shoopepayicon, back,} from '../../assets';
 
 
 export default function AmbilTanpaRibet3({ navigation }) {
@@ -28,29 +30,30 @@ export default function AmbilTanpaRibet3({ navigation }) {
   }, []);
 
   const handleBack = () => {
-    navigation.navigate("AmbilTanpaRibet")
+    navigation.navigate("HomeScreen")
   }
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <View
+        <View
         style={{
           padding: 10,
-          backgroundColor: colors.primary,
           borderBottomEndRadius: 5,
           borderBottomStartRadius: 5,
           flexDirection: 'row',
           justifyContent: 'center',
+          alignItems:'center'
         }}
       >
-        <TouchableOpacity onPress={handleBack} style={{ left: -70 }}>
-          <Image style={{ height: 24, width: 24, tintColor: 'white' }} source={LeftArrow} />
+        <TouchableOpacity onPress={handleBack} style={{ left: -40 }}>
+          <Image style={{ height: 45, width: 45, }} source={back} />
         </TouchableOpacity>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={{ color: 'white', fontFamily: 'Poppins-SemiBold', fontSize: 15, textAlign: 'center' }}>
-            Ambil Tanpa Ribet
+        <View style={{ alignItems: 'center', left : -15 }}>
+          <Text style={{ color: 'black', fontFamily: 'Poppins-SemiBold', fontSize: 20, textAlign: 'center' }}>
+          Ambil Tanpa Ribet
           </Text>
         </View>
       </View>
+
 
       <ScrollView style={{ flex: 1 }} horizontal={false}>
       <View style={{padding:10, }}>
@@ -151,25 +154,54 @@ export default function AmbilTanpaRibet3({ navigation }) {
 
 
         {/* PAYMENT METHOD */}
-        <View style={{marginTop: 20}}>
-            <View style={{flexDirection:'row',}}>
-            <Text style={{fontFamily:'Poppins-SemiBold', fontSize: 15, }}>Payment Methods</Text>
-            <Image style={{height:20, width:20, left: 10 }} source={MethodIcon}/>
-            </View>
+        <View style={{padding:10,  }}>
+        <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems:'center'}}>
+          <Text style={{fontFamily:"Poppins-SemiBold", fontSize:12, top:2,}}>Payment Methods</Text>
+          <Image style={{width:25, height:25 , left:10}} source={MethodIcon}/>
+        </View>
+        <View style={{flexDirection:'row', justifyContent:'space-around', marginTop:15}}>
+        {/* PAYMENT BANK */}
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate("BankPayment1")}>
+              <Image style={{height:50, width:50, }} source={BankPayIcon}/>
+            </TouchableOpacity>
+          </View>
 
+            {/* PAYMENT BANK */}
             <View>
-                <Image style={{height:90, width:300}} source={PaymentIcon}/>
-            </View>
+            <TouchableOpacity onPress={() => navigation.navigate("OVOPayment2")}>
+              <Image style={{height:40, width:40, }} source={OVOIcon}/>
+            </TouchableOpacity>
+          </View>
+          
+            {/* PAYMENT BANK */}
+            <View>
+            <TouchableOpacity onPress={() => navigation.navigate("QrisPayment2")}>
+              <Image style={{height:50, width:50, top: -5}} source={Shoopepayicon}/>
+            </TouchableOpacity>
+          </View>
+          
+            {/* PAYMENT BANK */}
+            <View>
+            <TouchableOpacity onPress={() => navigation.navigate("GopayPayment2")}>
+              <Image style={{height:40, width:40, }} source={GopayIcon}/>
+            </TouchableOpacity>
+          </View>
+          
+            {/* PAYMENT BANK */}
+            <View>
+            <TouchableOpacity onPress={()=> navigation.navigate("CODPayment")}>
+              <Image style={{height:40, width:40, }} source={CODIcon}/>
+            </TouchableOpacity>
+          </View>
+          
+        </View>
+
         </View>
 
         </View>
       </View>
       </ScrollView>
-            <View style={{}}>
-                <TouchableOpacity onPress={() => navigation.navigate("AmbilTanpaRibet4")} style={{padding:10, backgroundColor:colors.primary, borderTopLeftRadius: 10, borderTopRightRadius: 10  }}>
-                    <Text style={{fontFamily:'Poppins-SemiBold', fontSize: 15, color:'white', textAlign:'center'}}>Bayar</Text>
-                </TouchableOpacity>
-            </View>
     </View>
   );
 }

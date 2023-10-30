@@ -52,7 +52,7 @@ export default function SignupScreen({navigation}) {
 
             console.log(response.data);
             storeData('androiduser', from);
-            navigation.navigate("HomeScreen");
+            navigation.navigate("EmailScreen");
             Alert.alert(MYAPP, "Selamat Pendaftaran Berhasil!");
 
         } else {
