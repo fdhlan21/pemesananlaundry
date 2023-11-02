@@ -21,9 +21,9 @@
   }, []);
     
 
-  const loadProfileImageFromLocal = async (username) => {
+  const loadProfileImageFromLocal = async (id) => {
     try {
-      const profileImageData = await AsyncStorage.getItem(`profileImage_${username}`);
+      const profileImageData = await AsyncStorage.getItem(`profileImage_${id}`);
       if (profileImageData) {
         setProfileImage(profileImageData);
       }

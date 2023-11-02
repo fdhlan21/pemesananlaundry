@@ -24,7 +24,6 @@ import QrisPilihSendiri1 from '../../pages/pilihsendiri/qris1';
 import QrisPilihSendiri2 from '../../pages/pilihsendiri/qris2';
 import Profile1 from '../../pages/profile/profile1';
 import EditProfile from '../../pages/profile/editprofile';
-import LupaKataSandi from '../../pages/lupasandi';
 import OtpScreen from '../../pages/otpscreen';
 import EmailScreen from '../../pages/emailscreen';
 import TestEmailOTP from '../../pages/emailscreen/test';
@@ -37,6 +36,8 @@ import BankPayment2 from '../../pages/bankpayment';
 import BankPayment1 from '../../pages/bankpayment/index2';
 import QrisPaymemnt2 from '../../pages/qrispayment/index2';
 import OVOPayment2 from '../../pages/ovopayment/index2';
+import LupaPassword from '../../pages/lupapass';
+import LupaPassword2 from '../../pages/lupapass/index2';
 
 
 const Stack = createNativeStackNavigator();
@@ -63,7 +64,6 @@ function MyStack() {
         <Stack.Screen name="QrisPilihSendiri1" component={QrisPilihSendiri1} options={{headerShown:false}}/>
         <Stack.Screen name="QrisPilihSendiri2" component={QrisPilihSendiri2} options={{headerShown:false}}/>
         <Stack.Screen name="Profile1" component={Profile1} options={{headerShown:false}}/>
-        <Stack.Screen name="LupaKataSandi" component={LupaKataSandi} options={{headerShown:false}}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown:false}}/>
         <Stack.Screen name="OTPScreen" component={OtpScreen} options={{headerShown:false}}/>
         <Stack.Screen name="EmailScreen" component={EmailScreen} options={{headerShown:false}}/>
@@ -77,7 +77,8 @@ function MyStack() {
         <Stack.Screen name="BankPayment2" component={BankPayment2} options={{headerShown:false}}/>
         <Stack.Screen name="BankPayment1" component={BankPayment1} options={{headerShown:false}}/>
         <Stack.Screen name="QrisPayment2" component={QrisPaymemnt2} options={{headerShown:false}}/>
-
+        <Stack.Screen name="LupaPassword" component={LupaPassword} options={{headerShown:false}}/>
+        <Stack.Screen name="LupaPassword2" component={LupaPassword2} options={{headerShown:false}}/>
 
 
 

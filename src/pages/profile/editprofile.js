@@ -13,9 +13,9 @@ export default function EditProfile({ navigation }) {
   const [profileImage, setProfileImage] = useState(null);
 
   // Function to load the profile image from local storage
-  const loadProfileImageFromLocal = async (username) => {
+  const loadProfileImageFromLocal = async (id) => {
     try {
-      const profileImageData = await AsyncStorage.getItem(`profileImage_${username}`);
+      const profileImageData = await AsyncStorage.getItem(`profileImage_${id}`);
       if (profileImageData) {
         setProfileImage(profileImageData);
       }
@@ -66,8 +66,9 @@ export default function EditProfile({ navigation }) {
       if (imageUri) {
         RNFS.readFile(imageUri, 'base64')
           .then((base64data) => {
-            const username = data.username;
-            AsyncStorage.setItem(`profileImage_${username}`, imageUri) // Simpan dengan kunci unik
+            // const username = data.username;
+
+            AsyncStorage.setItem(`profileImage_${data.id}`, imageUri) // Simpan dengan kunci unik
               .then(() => {
                 setProfileImage(imageUri);
                 console.log(base64data);
@@ -95,68 +96,69 @@ export default function EditProfile({ navigation }) {
   const [editedNomortelepon, setEditedNomotelepon] = useState('');
   const [editedAlamat, setEditedAlamat] = useState('');
 
+// ...
 
-  const handleSaveChanges = async () => {
-    if (editedUsername.length === 0 || editedNomortelepon.length === 0 || editedAlamat.length === 0) {
-      Alert.alert(MYAPP, "Anda belum mengubah Profile anda!");
-    } else {
-      try {
-        // Mengambil data pengguna dari AsyncStorage
-        const existingData = await AsyncStorage.getItem('androiduser');
-        if (!existingData) {
-          Alert.alert(MYAPP, 'Data pengguna tidak tersedia.');
-          return;
-        }
-  
-        // Parse data pengguna dari string JSON
-        const userData = JSON.parse(existingData);
-  
-        // Pastikan userData memiliki properti "id"
-        if (!userData.username) {
-          Alert.alert(MYAPP, 'Data pengguna tidak memiliki properti "username".');
-          return;
-        }
-  
-        // Simpan perubahan ke local storage
-        const updatedProfile = {
-          ...userData,
-          username: editedUsername,
-          nomortelepon: editedNomortelepon,
-          alamat: editedAlamat,
-        };
-  
-        await AsyncStorage.setItem('androiduser', JSON.stringify(updatedProfile));
-  
-        // Kirim permintaan HTTP ke backend dengan parameter "userId"
-        const requestData = {
-          editedUsername,
-          editedNomortelepon,
-          editedAlamat,
-        };
-  
-        axios
-          .post(editProfile, requestData)
-          .then((response) => {
-            console.log(response.data);
-            if (response.data === 201) {
-              console.log("Update Data Profile Berhasil!", response.data);
-              Alert.alert("Selamat Perubahan Profile Berhasil!");
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'LoginScreen' }],
-              });
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } catch (error) {
-        console.error(error);
-        Alert.alert(MYAPP, 'Terjadi kesalahan.');
-      }
+const handleSaveChanges = async () => {
+  try {
+    // Mengambil data pengguna dari AsyncStorage
+    const existingData = await AsyncStorage.getItem('androiduser');
+    if (!existingData) {
+      Alert.alert(MYAPP, 'Data pengguna tidak tersedia.');
+      return;
     }
-  };
-  
+
+    // Parse data pengguna dari string JSON
+    const userData = JSON.parse(existingData);
+
+    // Pastikan userData memiliki properti "id"
+    if (!userData.id) {
+      Alert.alert(MYAPP, 'Data pengguna tidak memiliki properti "id".');
+      return;
+    }
+
+    // Buat objek untuk menyimpan perubahan
+    const updatedProfile = {
+      ...userData,
+      username: editedUsername || userData.username,
+      nomortelepon: editedNomortelepon || userData.nomortelepon,
+      alamat: editedAlamat || userData.alamat,
+    };
+
+    // Simpan perubahan ke local storage
+    await AsyncStorage.setItem('androiduser', JSON.stringify(updatedProfile));
+
+    // Kirim permintaan HTTP ke backend dengan parameter "userId"
+    const requestData = {
+      id: userData.id,
+      editedUsername: editedUsername,
+      editedNomortelepon: editedNomortelepon,
+      editedAlamat: editedAlamat,
+    };
+
+    axios
+      .post(editProfile, requestData)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data === 201) {
+          console.log("Update Data Profile Berhasil!", response.data);
+          Alert.alert("Selamat Perubahan Profile Berhasil!");
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'LoginScreen' }],
+          });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } catch (error) {
+    console.error(error);
+    Alert.alert(MYAPP, 'Terjadi kesalahan.');
+  }
+};
+
+// ...
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white'}}>
       <View
@@ -206,7 +208,7 @@ export default function EditProfile({ navigation }) {
             <View style={{ marginTop:20 }}>
             <TextInput style={{padding:10, backgroundColor:'#ececec', borderWidth:1, borderRadius:10, height:40,
             color:'black', fontFamily:'Poppins-Regular', fontSize:12, paddingRight:10, paddingLeft:10,  }}
-                placeholder={data.username} placeholderTextColor='gray' value={editedUsername} 
+                value={editedUsername} 
                 onChangeText={(text) => setEditedUsername(text)}
             />
             </View>
@@ -215,7 +217,7 @@ export default function EditProfile({ navigation }) {
             <View style={{ marginTop:20 }}>
             <TextInput style={{padding:10, backgroundColor:'#ececec', borderWidth:1, borderRadius:10, height:40,
             color:'black', fontFamily:'Poppins-Regular', fontSize:12, paddingRight:10, paddingLeft:10,  }}
-                placeholder={data.nomortelepon} placeholderTextColor='gray' value={editedNomortelepon}
+               value={editedNomortelepon}
                 onChangeText={(text) => setEditedNomotelepon(text)}
             />
             </View>
@@ -224,7 +226,7 @@ export default function EditProfile({ navigation }) {
             <View style={{ marginTop:20 }}>
             <TextInput style={{padding:10, backgroundColor:'#ececec', borderWidth:1, borderRadius:10, height:40,
             color:'black', fontFamily:'Poppins-Regular', fontSize:12, paddingRight:10, paddingLeft:10,  }}
-                placeholder={data.alamat} placeholderTextColor='gray' value={editedAlamat}
+                 value={editedAlamat}
                 onChangeText={(text) => setEditedAlamat(text)}
             />
             </View>
